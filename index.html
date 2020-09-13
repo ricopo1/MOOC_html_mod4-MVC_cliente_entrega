@@ -181,20 +181,28 @@
 
       const showView = (pelicula) => {
         // Completar: genera HTML con información de la película
-        // ...
+        let html = `<div class="actions">
+                      <button class="index">Volver</button>
+                    </div>`;
+        // Se controla si no hay nada de información sobre la película
+        if (!pelicula.titulo.trim() && !pelicula.director.trim()) {
+          return `<p>
+                  No hay información disponible soble la película seleccionada
+                 </p> ${html}`;
+        }
 
         return `
              <p>
-             La película <strong>${pelicula.titulo}</strong> fue dirigida por <strong>${pelicula.director}</strong>
-             </p>
-             <div class="actions">
-                <button class="index">Volver</button>
-             </div>`;
+             La película <strong>${
+               pelicula.titulo.trim() || `"Sin información sobre el título"`
+             }</strong> fue dirigida por <strong>${
+          pelicula.director.trim() || `"Sin información sobre el director"`
+        }</strong>
+             </p> ${html}`;
       };
 
       const newView = () => {
         // Completar: genera formulario para crear nuevo quiz
-
         return `<h2>Crear Película</h2>
                 <div class="field">
                   Título <br>
@@ -269,9 +277,11 @@
         let deleteFilm = confirm("Seguro que desea eliminar la película?");
         if (deleteFilm) {
           let mis_peliculas = JSON.parse(localStorage.mis_peliculas);
-          mis_peliculas.splice(i,1);
+          mis_peliculas.splice(i, 1);
           localStorage.mis_peliculas = JSON.stringify(mis_peliculas);
-        } 
+        } else {
+          return false;
+        }
         indexContr();
       };
 
